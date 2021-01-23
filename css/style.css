@@ -1,0 +1,105 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
+.customHeaderStyle{
+    background-color: #003973;
+    min-height: 15vh;
+}
+
+.customSignInBtn{
+    color: white;
+    background-color: #003973;
+    border-color: #003973;
+}
+
+.customCarousalImgStyle{
+    height: 700px;
+    object-fit: cover;
+}
+
+.customCarousalBg{
+    height: 85vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.customCarousalText{
+    width: 450px;
+    height: 270px;
+    margin: 100px 20px;
+    padding: 20px;
+    border-radius: 2%;
+    background-color: rgba(0, 0, 0, .3);
+    color: white;
+}
+.customCarousalText p{
+    font-size: 16px;
+    text-align: justify;
+}
+
+.cover{
+    height: 350px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cover h1{
+    color: white;
+    font-family: cursive;
+    font-size: 80px;
+    padding-top: 150px;
+    text-align: center;
+}
+
+.content p{
+    text-align: justify;
+}
+
+.content h5{
+    font-weight: bold;
+}
+
+.asideCard{
+    height: 100%;
+}
+
+.contact{
+    text-align: center;
+    padding: 10px;
+    margin-top: 15px;
+}
+
+.toll-free{
+    color: #003973;
+}
+
+.toll-free small{
+    font-size: .5em;
+    line-height: 3em;
+    color: gray;
+}
+
+.signin{
+    padding: 60px 80px;
+}
+
+.signup{
+    padding: 20px;
+}
+
+.customCardStyle img{
+    height: 200px;
+}
