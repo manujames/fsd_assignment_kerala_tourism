@@ -103,3 +103,11 @@ a:hover{
 .customCardStyle img{
     height: 200px;
 }
+
+.requiredElement{
+    color: red;
+}
+
+.validationMessage{
+    font-size: small;
+}
