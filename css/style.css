@@ -109,5 +109,12 @@ a:hover{
 }
 
 .validationMessage{
-    font-size: small;
+    font-size: xx-small;
+    margin: 1px;
+    color: #dc3545;
+}
+
+p#togglePwd{
+    font-size: x-small;
+    margin-top: 10px;
 }

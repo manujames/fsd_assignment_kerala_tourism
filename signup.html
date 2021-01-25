@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js" defer></script>
     <script src="./js/validation.js" defer></script>
 </head>
 
@@ -79,17 +80,31 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password<span class="requiredElement">*</span></label>
-                        <input type="password" class="form-control" id="password" placeholder="Use a strong password" oninput='return basicValidation(this,"passwordValidationMessage");' onblur='return basicValidation(this,"passwordValidationMessage");'>
+                        <input type="password" class="form-control" id="password" placeholder="Use a strong password" oninput='return passwordValidation(this,"passwordValidationMessage");' onblur='return passwordValidation(this,"passwordValidationMessage");'>
                         <small id="passwordHelp" class="form-text text-muted">
                             Use 8 or more characters with a mix of capital letters, small letters, numbers & symbols.
                         </small>
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-3 col-4">
+                                <meter id="passwordStrengthMeter" max="4"></meter>
+                            </div>
+                            <div class="col-lg-10 col-sm-9 col-8">
+                                <p id="passwordStrengthText">Strength:</p>    
+                            </div>
+                        </div>
                         <p class="validationMessage" id="passwordValidationMessage"></p>
                     </div>
                     <div class="form-group">
                         <label for="repeatPassword">Re enter password<span class="requiredElement">*</span></label>
                         <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat your password" oninput='return basicValidation(this,"repeatPasswordValidationMessage");' onblur='return basicValidation(this,"repeatPasswordValidationMessage");'>
                         <p class="validationMessage" id="repeatPasswordValidationMessage"></p>
+                        <p id="togglePwd" toggleStat="hide" onclick='togglePassword(this);'>Show password <i class="far fa-eye-slash"></i></p>
                     </div>
+                    <!-- <div class="form-group custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="togglePwd" onclick='togglePassword(this);'>
+                        <label class="custom-control-label" for="togglePwd">Show password</label>
+                    </div> -->
+                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary" id="togglePwd" toggleStat="hide" onclick='togglePassword(this);'>Show password <i class="far fa-eye-slash"></i></button> -->
                     <p><small>All fields are mandatory</small></p>
                     <button type="submit" class="btn btn-success">Sign up</button>
                 </form>

@@ -3,12 +3,14 @@
 function basicValidation(input,messageId){
     let = validationMessage = document.getElementById(messageId);
     if(input.value.trim().length === 0){
-        validationMessage.innerHTML = '<i class="far fa-times-circle"></i> This field can\'t be empty';
-        validationMessage.style.color = 'red';
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'This field can\'t be empty';
         return false;
     }
-    validationMessage.innerHTML = '<i class="far fa-check-circle"></i>';
-    validationMessage.style.color = 'green';
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+    validationMessage.innerText = '';
     return true;
 }
 
@@ -17,23 +19,27 @@ function phoneValidation(input,messageId){
     let regExp1 = /^([0-9]{10})$/;                                              //eg: 0123456789
     let regExp2 = /^([0-9]{3})([\ .-]{1})([0-9]{3})([\ .-]{1})([0-9]{4})$/;     //eg: 012-345-6789, 012.345.6789, 012 345 6789
     if(input.value.length === 10 && regExp1.test(input.value)){
-        validationMessage.innerHTML = '<i class="far fa-check-circle"></i>';
-        validationMessage.style.color = 'green';
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
         return true;
     }
     else if(regExp2.test(input.value)){
-        validationMessage.innerHTML = '<i class="far fa-check-circle"></i>';
-        validationMessage.style.color = 'green';
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
         return true;
     }
     else if(input.value.trim().length===0){
-        validationMessage.innerHTML = '<i class="far fa-times-circle"></i> This field can\'t be empty';
-        validationMessage.style.color = 'red';
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'This field can\'t be empty';
         return false;
     }
     else{
-        validationMessage.innerHTML = '<i class="far fa-times-circle"></i> Enter a valid 10 digit phone number';
-        validationMessage.style.color = 'red';
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Enter a valid 10 digit phone number';
         return false;
     }
 }
@@ -41,32 +47,173 @@ function phoneValidation(input,messageId){
 function emailValidation(input,messageId){
     let = validationMessage = document.getElementById(messageId);
     // Username can include a-z, A-Z, 0-9, . and -
-    // Fisrt character should be alphanumeric
+    // Fisrt and last characters of username should be alphanumeric
     // No consecutive . or - are allowed
-    // @ seperates username and domain name
+    // @ separates username and domain name
     // domain name can include a-z, A-Z, 0-9 and -
-    // . seoerates domain name and primary extension
+    // . separates domain name and primary extension
+    // Fisrt and last characters of domain name should be alphanumeric
     // Extension can include a-z and A-Z
     // Extension should have 2 or 3 characters
     // Secondary extension is optional
-    // . seperates primary and secondary extensions
-    let regExp = /^(?!.*\.{2})(?!.*\-{2})([a-zA-Z0-9]{1})([a-zA-Z0-9\.-]+)?\@([a-zA-Z0-9\-]+)\.([a-zA-Z]{2,3})(\.[a-zA-Z]{2,3})?$/;
+    // . separates primary and secondary extensions
+    let regExp = /^(?!.*[-.@]{2})([a-zA-Z0-9]{1})([a-zA-Z0-9\.-]+)?\@([a-zA-Z0-9\-]+)\.([a-zA-Z]{2,3})(\.[a-zA-Z]{2,3})?$/;
     if(regExp.test(input.value)){
-        console.log(1);
-        validationMessage.innerHTML = '<i class="far fa-check-circle"></i>';
-        validationMessage.style.color = 'green';
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
         return true;
     }
     else if(input.value.trim().length===0){
-        console.log(2);
-        validationMessage.innerHTML = '<i class="far fa-times-circle"></i> This field can\'t be empty';
-        validationMessage.style.color = 'red';
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'This field can\'t be empty';
         return false;
     }
     else{
-        console.log(3);
-        validationMessage.innerHTML = '<i class="far fa-times-circle"></i> Enter a valid e-mail id';
-        validationMessage.style.color = 'red';
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Enter a valid e-mail id';
         return false;
+    }
+}
+
+function passwordValidation(input,messageId){
+    let = validationMessage = document.getElementById(messageId);
+    let strengthMeter = document.getElementById('passwordStrengthMeter');
+    let strengthText = document.getElementById('passwordStrengthText');
+    let strength;
+    let strengthExp =  {
+        0: "",
+        1: "Bad.",
+        2: "Weak.",
+        3: "Good.",
+        4: "Strong."
+    }
+    let regExpLowerCase = /[a-z]/;
+    let regExpUpperCase = /[A-Z]/;
+    let regExpNumber = /[0-9]/;
+    let regExpSymbol = /[!-/:-@[-`{-~]/     //ASCII ranges 33-47, 58-64, 91-96 and 123-126 represents symbols
+    if(input.value.trim().length === 0){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'This field can\'t be empty';
+        strengthMeter.value = 0;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
+        return false;
+    }
+    else if(input.value.length < 8){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Password should have 8 or more characters';
+        strengthMeter.value = 1;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
+        return false;
+    }
+    else if(input.value[0] == ' ' || input.value[input.value.length-1] == ' '){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Password can not start or end with blank space';
+        strengthMeter.value = 2;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
+        return false;
+    }
+    else if(!input.value.match(regExpLowerCase)){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Password should have atleast one lower case letter';
+        strengthMeter.value = 2;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
+        return false;
+    }
+    else if(!input.value.match(regExpUpperCase)){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Password should have atleast one upper case letter';
+        strengthMeter.value = 2;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
+        return false;
+    }
+    else if(!input.value.match(regExpNumber)){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Password should have atleast one number';
+        strengthMeter.value = 2;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
+        return false;
+    }
+    else if(!input.value.match(regExpSymbol)){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Password should have atleast one symbol';
+        strengthMeter.value = 2;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
+        return false;
+    }
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+    validationMessage.innerText = '';
+    strength = zxcvbn(input.value);     //Calculate password strength
+    strengthMeter.value = strength.score;
+    strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value] + ' ' + strength.feedback.warning + ' ' + strength.feedback.suggestions;
+    console.log(strength);
+    return true;
+}
+
+
+
+// var password = document.getElementById('password');
+// var meter = document.getElementById('passwordStrengthMeter');
+// var text = document.getElementById('passwordStrengthText');
+
+// password.addEventListener('input', function(){
+//     var val = password.value;
+//     var result = zxcvbn(val);
+
+//     // Update the password strength meter
+//     meter.value = result.score;
+
+//     //   Update the text indicator
+//     if(val !== ""){
+//         text.innerHTML = "Strength: " + strength[result.score]; 
+//     }
+//     else{
+//         text.innerHTML = "";
+//     }
+// });
+
+
+// password.addEventListener('input', function(){
+//     var val = password.value;
+//     var result = zxcvbn(val);
+  
+//     // Update the password strength meter
+//     meter.value = result.score;
+   
+//     // Update the text indicator
+//     if(val !== ""){
+//         text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span"; 
+//     }
+//     else{
+//         text.innerHTML = "";
+//     }
+// });
+
+
+
+function togglePassword(field){
+    let pwd = document.getElementById('password');
+    let repeatPwd = document.getElementById('repeatPassword');
+    if(field.getAttribute('toggleStat') == 'hide'){
+        field.setAttribute('toggleStat', 'show');
+        field.innerHTML = 'Show password <i class="far fa-eye"></i>';
+        pwd.type = 'text';
+        repeatPwd.type = 'text';
+    }
+    else{
+        field.setAttribute('toggleStat', 'hide');
+        field.innerHTML = 'Show password <i class="far fa-eye-slash"></i>';
+        pwd.type = 'password';
+        repeatPwd.type = 'password';
     }
 }
