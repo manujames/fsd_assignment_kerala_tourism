@@ -56,6 +56,8 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8 signup">
                 <form>
+                    <!-- Each inputs are validated onblur and oninput -->
+                    <!-- Password strength status is shown only while password input field is in focus -->
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="fname">First name<span class="requiredElement">*</span></label>
@@ -80,23 +82,17 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password<span class="requiredElement">*</span></label>
-                        <input type="password" class="form-control" id="password" placeholder="Use a strong password" oninput='return passwordValidation(this,"passwordValidationMessage");' onblur='return passwordValidation(this,"passwordValidationMessage");'>
+                        <input type="password" class="form-control" id="password" placeholder="Use a strong password" oninput='return passwordValidation(this,"passwordValidationMessage");' onblur='return passwordValidation(this,"passwordValidationMessage");' onfocusin='showStrengthStat();' onfocusout='hideStrengthStat();'>
+                        <meter id="passwordStrengthMeter" max="4" hidden=true></meter>
+                        <p id="passwordStrengthText" hidden=true>Strength:</p>
                         <small id="passwordHelp" class="form-text text-muted">
                             Use 8 or more characters with a mix of capital letters, small letters, numbers & symbols.
                         </small>
-                        <div class="row">
-                            <div class="col-lg-2 col-sm-3 col-4">
-                                <meter id="passwordStrengthMeter" max="4"></meter>
-                            </div>
-                            <div class="col-lg-10 col-sm-9 col-8">
-                                <p id="passwordStrengthText">Strength:</p>    
-                            </div>
-                        </div>
                         <p class="validationMessage" id="passwordValidationMessage"></p>
                     </div>
                     <div class="form-group">
                         <label for="repeatPassword">Re enter password<span class="requiredElement">*</span></label>
-                        <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat your password" oninput='return basicValidation(this,"repeatPasswordValidationMessage");' onblur='return basicValidation(this,"repeatPasswordValidationMessage");'>
+                        <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat your password" oninput='return repeatPasswordValidation(this,"repeatPasswordValidationMessage");' onblur='return repeatPasswordValidation(this,"repeatPasswordValidationMessage");'>
                         <p class="validationMessage" id="repeatPasswordValidationMessage"></p>
                         <p id="togglePwd" toggleStat="hide" onclick='togglePassword(this);'>Show password <i class="far fa-eye-slash"></i></p>
                     </div>

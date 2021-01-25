@@ -109,12 +109,33 @@ a:hover{
 }
 
 .validationMessage{
-    font-size: xx-small;
+    font-size: small;
     margin: 1px;
     color: #dc3545;
 }
 
 p#togglePwd{
-    font-size: x-small;
+    font-size: small;
     margin-top: 10px;
 }
+
+p#passwordStrengthText{
+    font-size: small;
+    margin-bottom: 5px;
+}
+
+meter {
+    width: 100%;
+}
+
+/* Webkit based browsers */
+meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+meter[value="2"]::-webkit-meter-optimum-value { background: orangered; }
+meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
+meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+
+/* Gecko based browsers */
+meter[value="1"]::-moz-meter-bar { background: red; }
+meter[value="2"]::-moz-meter-bar { background: orangered; }
+meter[value="3"]::-moz-meter-bar { background: orange; }
+meter[value="4"]::-moz-meter-bar { background: green; }

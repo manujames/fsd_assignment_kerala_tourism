@@ -1,3 +1,7 @@
+let strengthMeter = document.getElementById('passwordStrengthMeter');
+let strengthText = document.getElementById('passwordStrengthText');
+let password = document.getElementById('password');
+
 // This function check whether the specified input field is empty or not
 // Return true if input have some value in it
 function basicValidation(input,messageId){
@@ -18,30 +22,22 @@ function phoneValidation(input,messageId){
     let = validationMessage = document.getElementById(messageId);
     let regExp1 = /^([0-9]{10})$/;                                              //eg: 0123456789
     let regExp2 = /^([0-9]{3})([\ .-]{1})([0-9]{3})([\ .-]{1})([0-9]{4})$/;     //eg: 012-345-6789, 012.345.6789, 012 345 6789
-    if(input.value.length === 10 && regExp1.test(input.value)){
-        input.classList.remove('is-invalid');
-        input.classList.add('is-valid');
-        validationMessage.innerText = '';
-        return true;
-    }
-    else if(regExp2.test(input.value)){
-        input.classList.remove('is-invalid');
-        input.classList.add('is-valid');
-        validationMessage.innerText = '';
-        return true;
-    }
-    else if(input.value.trim().length===0){
+    if(input.value.trim().length===0){
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
         validationMessage.innerText = 'This field can\'t be empty';
         return false;
     }
-    else{
+    else if(!regExp1.test(input.value) && !regExp2.test(input.value)){
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
         validationMessage.innerText = 'Enter a valid 10 digit phone number';
         return false;
     }
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+    validationMessage.innerText = '';
+    return true;
 }
 
 function emailValidation(input,messageId){
@@ -78,10 +74,11 @@ function emailValidation(input,messageId){
     }
 }
 
+// Password should have atleast 8 charactors
+// Mix of lower case, upper case, numbers and symbols
+// Passwords can not start or end with blank space
 function passwordValidation(input,messageId){
     let = validationMessage = document.getElementById(messageId);
-    let strengthMeter = document.getElementById('passwordStrengthMeter');
-    let strengthText = document.getElementById('passwordStrengthText');
     let strength;
     let strengthExp =  {
         0: "",
@@ -156,51 +153,41 @@ function passwordValidation(input,messageId){
     strength = zxcvbn(input.value);     //Calculate password strength
     strengthMeter.value = strength.score;
     strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value] + ' ' + strength.feedback.warning + ' ' + strength.feedback.suggestions;
-    console.log(strength);
     return true;
 }
 
+function showStrengthStat(){
+    strengthMeter.hidden = false;
+    strengthText.hidden = false;
+}
 
+function hideStrengthStat(){
+    strengthMeter.hidden = true;
+    strengthText.hidden = true;
+}
 
-// var password = document.getElementById('password');
-// var meter = document.getElementById('passwordStrengthMeter');
-// var text = document.getElementById('passwordStrengthText');
+// Check whether repeat password field is same as password field
+function repeatPasswordValidation(input,messageId){
+    let = validationMessage = document.getElementById(messageId);
+    if(input.value.trim().length === 0){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'This field can\'t be empty';
+        return false;
+    }
+    else if(input.value !== password.value){
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        validationMessage.innerText = 'Passwords don\'t match';
+        return false;
+    }
+    input.classList.remove('is-invalid');
+    input.classList.add('is-valid');
+    validationMessage.innerText = '';
+    return true;
+}
 
-// password.addEventListener('input', function(){
-//     var val = password.value;
-//     var result = zxcvbn(val);
-
-//     // Update the password strength meter
-//     meter.value = result.score;
-
-//     //   Update the text indicator
-//     if(val !== ""){
-//         text.innerHTML = "Strength: " + strength[result.score]; 
-//     }
-//     else{
-//         text.innerHTML = "";
-//     }
-// });
-
-
-// password.addEventListener('input', function(){
-//     var val = password.value;
-//     var result = zxcvbn(val);
-  
-//     // Update the password strength meter
-//     meter.value = result.score;
-   
-//     // Update the text indicator
-//     if(val !== ""){
-//         text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span"; 
-//     }
-//     else{
-//         text.innerHTML = "";
-//     }
-// });
-
-
-
+// Toggle password display
 function togglePassword(field){
     let pwd = document.getElementById('password');
     let repeatPwd = document.getElementById('repeatPassword');
