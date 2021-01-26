@@ -103,3 +103,27 @@ a:hover{
 .customCardStyle img{
     height: 200px;
 }
+
+.requiredElement{
+    color: red;
+}
+
+.validationMessage{
+    font-size: small;
+    margin: 1px;
+    color: #dc3545;
+}
+
+p#togglePwd{
+    font-size: small;
+    margin-top: 10px;
+}
+
+p#passwordStrengthText{
+    font-size: small;
+    margin-bottom: 5px;
+}
+
+meter {
+    width: 100%;
+}
