@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8 signup">
-                <form>
+                <form action="./signin.html" onsubmit="return signupValidation(this);">
                     <!-- Each inputs are validated onblur and oninput -->
                     <!-- Password strength status is shown only while password input field is in focus -->
                     <div class="form-row">
@@ -77,13 +77,13 @@
                     </div>
                     <div class="form-group">
                         <label for="emailId">Email<span class="requiredElement">*</span></label>
-                        <input type="email" class="form-control" id="emailId" placeholder="example@domain.com" oninput='return emailValidation(this,"emailIdValidationMessage");' onblur='return emailValidation(this,"emailIdValidationMessage");'>
+                        <input type="text" class="form-control" id="emailId" placeholder="example@domain.com" oninput='return emailValidation(this,"emailIdValidationMessage");' onblur='return emailValidation(this,"emailIdValidationMessage");'>
                         <p class="validationMessage" id="emailIdValidationMessage"></p>
                     </div>
                     <div class="form-group">
                         <label for="password">Password<span class="requiredElement">*</span></label>
                         <input type="password" class="form-control" id="password" placeholder="Use a strong password" oninput='return passwordValidation(this,"passwordValidationMessage");' onblur='return passwordValidation(this,"passwordValidationMessage");' onfocusin='showStrengthStat();' onfocusout='hideStrengthStat();'>
-                        <meter id="passwordStrengthMeter" max="4" hidden=true></meter>
+                        <meter id="passwordStrengthMeter" min="0" low="2" high="3" optimum= "4" max="4" hidden=true></meter>
                         <p id="passwordStrengthText" hidden=true>Strength:</p>
                         <small id="passwordHelp" class="form-text text-muted">
                             Use 8 or more characters with a mix of capital letters, small letters, numbers & symbols.
@@ -96,11 +96,6 @@
                         <p class="validationMessage" id="repeatPasswordValidationMessage"></p>
                         <p id="togglePwd" toggleStat="hide" onclick='togglePassword(this);'>Show password <i class="far fa-eye-slash"></i></p>
                     </div>
-                    <!-- <div class="form-group custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="togglePwd" onclick='togglePassword(this);'>
-                        <label class="custom-control-label" for="togglePwd">Show password</label>
-                    </div> -->
-                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary" id="togglePwd" toggleStat="hide" onclick='togglePassword(this);'>Show password <i class="far fa-eye-slash"></i></button> -->
                     <p><small>All fields are mandatory</small></p>
                     <button type="submit" class="btn btn-success">Sign up</button>
                 </form>

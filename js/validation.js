@@ -12,32 +12,39 @@ function basicValidation(input,messageId){
         validationMessage.innerText = 'This field can\'t be empty';
         return false;
     }
-    input.classList.remove('is-invalid');
-    input.classList.add('is-valid');
-    validationMessage.innerText = '';
-    return true;
+    else{
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
+        return true;
+    }
 }
 
 function phoneValidation(input,messageId){
     let = validationMessage = document.getElementById(messageId);
-    let regExp1 = /^([0-9]{10})$/;                                              //eg: 0123456789
-    let regExp2 = /^([0-9]{3})([\ .-]{1})([0-9]{3})([\ .-]{1})([0-9]{4})$/;     //eg: 012-345-6789, 012.345.6789, 012 345 6789
+    let regExp1 = /^([0-9]{10})$/;                                          //eg: 0123456789
+    let regExp2 = /^([0-9]{3})([\-]{1})([0-9]{3})([\-]{1})([0-9]{4})$/;     //eg: 012-345-6789
+    let regExp3 = /^([0-9]{3})([\.]{1})([0-9]{3})([\.]{1})([0-9]{4})$/;     //eg: 012.345.6789
+    let regExp4 = /^([0-9]{3})([\ ]{1})([0-9]{3})([\ ]{1})([0-9]{4})$/;     //eg: 012 345 6789
     if(input.value.trim().length===0){
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
         validationMessage.innerText = 'This field can\'t be empty';
         return false;
     }
-    else if(!regExp1.test(input.value) && !regExp2.test(input.value)){
+    // If phone number does not match all of the four formats, return false
+    else if(!regExp1.test(input.value) && !regExp2.test(input.value) && !regExp3.test(input.value) && !regExp4.test(input.value)){
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
         validationMessage.innerText = 'Enter a valid 10 digit phone number';
         return false;
     }
-    input.classList.remove('is-invalid');
-    input.classList.add('is-valid');
-    validationMessage.innerText = '';
-    return true;
+    else{
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
+        return true;
+    }
 }
 
 function emailValidation(input,messageId){
@@ -54,23 +61,23 @@ function emailValidation(input,messageId){
     // Secondary extension is optional
     // . separates primary and secondary extensions
     let regExp = /^(?!.*[-.@]{2})([a-zA-Z0-9]{1})([a-zA-Z0-9\.-]+)?\@([a-zA-Z0-9\-]+)\.([a-zA-Z]{2,3})(\.[a-zA-Z]{2,3})?$/;
-    if(regExp.test(input.value)){
-        input.classList.remove('is-invalid');
-        input.classList.add('is-valid');
-        validationMessage.innerText = '';
-        return true;
-    }
-    else if(input.value.trim().length===0){
+    if(input.value.trim().length===0){
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
         validationMessage.innerText = 'This field can\'t be empty';
         return false;
     }
-    else{
+    else if(!regExp.test(input.value)){
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
         validationMessage.innerText = 'Enter a valid e-mail id';
         return false;
+    }
+    else{
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
+        return true;
     }
 }
 
@@ -147,13 +154,15 @@ function passwordValidation(input,messageId){
         strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value];
         return false;
     }
-    input.classList.remove('is-invalid');
-    input.classList.add('is-valid');
-    validationMessage.innerText = '';
-    strength = zxcvbn(input.value);     //Calculate password strength
-    strengthMeter.value = strength.score;
-    strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value] + ' ' + strength.feedback.warning + ' ' + strength.feedback.suggestions;
-    return true;
+    else{
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
+        strength = zxcvbn(input.value);     //Calculate password strength
+        strengthMeter.value = strength.score;
+        strengthText.innerText = 'Strength: ' + strengthExp[strengthMeter.value] + ' ' + strength.feedback.warning;
+        return true;
+    }
 }
 
 function showStrengthStat(){
@@ -181,10 +190,12 @@ function repeatPasswordValidation(input,messageId){
         validationMessage.innerText = 'Passwords don\'t match';
         return false;
     }
-    input.classList.remove('is-invalid');
-    input.classList.add('is-valid');
-    validationMessage.innerText = '';
-    return true;
+    else{
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        validationMessage.innerText = '';
+        return true;
+    }
 }
 
 // Toggle password display
@@ -194,13 +205,51 @@ function togglePassword(field){
     if(field.getAttribute('toggleStat') == 'hide'){
         field.setAttribute('toggleStat', 'show');
         field.innerHTML = 'Show password <i class="far fa-eye"></i>';
-        pwd.type = 'text';
-        repeatPwd.type = 'text';
+        if(pwd != null){
+            pwd.type = 'text';
+        }
+        if(repeatPwd != null){
+            repeatPwd.type = 'text';
+        }
     }
     else{
         field.setAttribute('toggleStat', 'hide');
         field.innerHTML = 'Show password <i class="far fa-eye-slash"></i>';
-        pwd.type = 'password';
-        repeatPwd.type = 'password';
+        if(pwd != null){
+            pwd.type = 'password';
+        }
+        if(repeatPwd != null){
+            repeatPwd.type = 'password';
+        }
+    }
+}
+
+// Validate all fields in sign up form
+function signupValidation(form){
+    let fnameVal = basicValidation(form.fname, 'fnameValidationMessage');
+    let snameVal = basicValidation(form.sname, 'snameValidationMessage');
+    let phoneVal = phoneValidation(form.phone, 'phoneValidationMessage');
+    let emailIdVal = emailValidation(form.emailId, 'emailIdValidationMessage');
+    let pwdVal = passwordValidation(form.password, 'passwordValidationMessage');
+    let repeatPwdVal = repeatPasswordValidation(form.repeatPassword, 'repeatPasswordValidationMessage');
+    // If any of the input form validations failed, return false 
+    if(!fnameVal || !snameVal || !phoneVal || !emailIdVal ||!pwdVal || !repeatPwdVal){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+// Validate all fields in sign in form
+function signinValidation(form){
+    let emailIdVal = emailValidation(form.emailId, 'emailIdValidationMessage');
+    let pwdVal = basicValidation(form.password, 'passwordValidationMessage');   // Only basic validation for password in sign in form.
+    // If any of the input form validations failed, return false 
+    if(!emailIdVal ||!pwdVal){
+        return false;
+    }
+    else{
+        return true;
     }
 }
